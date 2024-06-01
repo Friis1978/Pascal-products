@@ -7,7 +7,7 @@
   </div>
   <div class="p-10">
     <iframe
-      class="flex w-full border border-blue-500 h-screen"
+      class="flex w-full border border-blue-500 h-screen rounded-xl"
       src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2FgHj5jQyf5O9ronXdVZJBpa%2FPascal-uml%3Fnode-id%3D0-1%26t%3DS5GD5NfwTEEhvYRV-1"
       allowfullscreen
     ></iframe>

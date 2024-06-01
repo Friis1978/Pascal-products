@@ -5,10 +5,10 @@
       Goto figma
     </button>
   </div>
-  <div class="flex w-full h-full gap-5 text-sm">
+  <div class="flex w-full h-full gap-5 text-sm px-10">
     <div>
-      <h1 class="text-center text-2xl">Company</h1>
-      <ul class="p-10">
+      <h1 class="text-2xl">Company</h1>
+      <ul class="mt-10">
         <li
           v-for="(company, index) in companies"
           :key="index"
@@ -21,8 +21,8 @@
       </ul>
     </div>
     <div v-if="categories">
-      <h1 class="text-center text-2xl">Category</h1>
-      <ul class="p-10">
+      <h1 class="text-2xl">Category</h1>
+      <ul class="mt-10">
         <li
           v-for="(category, index) in categories"
           :key="index"
@@ -36,7 +36,7 @@
     </div>
 
     <div v-if="currentProducts">
-      <h1 class="text-center text-2xl">Products</h1>
+      <h1 class="text-2xl">Products</h1>
       <div class="border border-blue-500 p-2 rounded-lg mt-10 h-[21rem]">
         <ul class="max-h-[20rem] overflow-scroll scrollbar">
           <li
@@ -53,7 +53,7 @@
     </div>
 
     <div v-if="selectedProduct">
-      <h1 class="text-center text-2xl">Selected</h1>
+      <h1 class="text-2xl">Selected</h1>
       <div
         class="flex flex-col justify-between bg-blue-200 p-10 h-[21rem] mt-10 border border-blue-500 rounded-xl w-[25rem]"
       >
