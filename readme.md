@@ -53,3 +53,7 @@ mam@pascal-audio.com preferedly at least 2 hours before the interview.
 You are requested to bring your own laptop to present the result - 
 during the interview.
 
+## Links
+[Figma diagrams & notes](https://www.figma.com/board/gHj5jQyf5O9ronXdVZJBpa/Pascal-uml?node-id=0-1&t=S5GD5NfwTEEhvYRV-1)
+
+

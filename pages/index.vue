@@ -1,8 +1,14 @@
 <template>
-  <div class="flex w-full h-full gap-5">
+  <div class="flex w-full h-20 px-10 items-center justify-between bg-gradient-to-r from-cyan-500 to-blue-500 mb-5 shadow-xl">
+    <h1 class="text-white text-4xl">Pascal products</h1>
+    <button @click="navigateTo('/figma')" class="bg-white px-3 py-2 rounded-lg">
+      Goto figma
+    </button>
+  </div>
+  <div class="flex w-full h-full gap-5 text-sm">
     <div>
-      <h1 class="text-center text-3xl">Company</h1>
-      <ul class="p-10 text-xl">
+      <h1 class="text-center text-2xl">Company</h1>
+      <ul class="p-10">
         <li
           v-for="(company, index) in companies"
           :key="index"
@@ -10,13 +16,13 @@
           class="hover:text-blue-500 hover:cursor-pointer px-2"
           :class="company === currentCompany && 'bg-blue-200 rounded-lg'"
         >
-          {{ `${index + 1}: ${company}` }}
+          {{ company }}
         </li>
       </ul>
     </div>
     <div v-if="categories">
-      <h1 class="text-center text-3xl">Category</h1>
-      <ul class="p-10 text-xl">
+      <h1 class="text-center text-2xl">Category</h1>
+      <ul class="p-10">
         <li
           v-for="(category, index) in categories"
           :key="index"
@@ -24,31 +30,32 @@
           class="hover:text-blue-500 hover:cursor-pointer px-2"
           :class="category === currentCategory && 'bg-blue-200 rounded-lg'"
         >
-          {{ `${index + 1}: ${category}` }}
+          {{ category }}
         </li>
       </ul>
     </div>
 
     <div v-if="currentProducts">
-      <h1 class="text-center text-3xl">Products</h1>
+      <h1 class="text-center text-2xl">Products</h1>
       <div class="border border-blue-500 p-2 rounded-lg mt-10 h-[21rem]">
-        <ul class="text-xl max-h-[20rem] overflow-scroll scrollbar">
+        <ul class="max-h-[20rem] overflow-scroll scrollbar">
           <li
             v-for="(item, index) in currentProducts"
             :key="index"
             @click="selectProduct(item)"
-            class="hover:text-blue-500 hover:cursor-pointer"
+            class="hover:text-blue-500 hover:cursor-pointer px-2"
+            :class="item?.id === selectedProduct?.id && 'bg-blue-200 rounded-lg'"
           >
-            {{ `${index + 1}: ${item.product}` }}
+            {{ item.product }}
           </li>
         </ul>
       </div>
     </div>
 
     <div v-if="selectedProduct">
-      <h1 class="text-center text-3xl">Selected</h1>
+      <h1 class="text-center text-2xl">Selected</h1>
       <div
-        class="flex flex-col justify-between bg-blue-200 p-10 h-[21rem] mt-10 border border-blue-500 rounded-xl"
+        class="flex flex-col justify-between bg-blue-200 p-10 h-[21rem] mt-10 border border-blue-500 rounded-xl w-[25rem]"
       >
         <div>
           <p>Product: {{ selectedProduct.product }}</p>
@@ -74,28 +81,32 @@
       </div>
     </div>
   </div>
-  <div>
-    <h1 class="text-center text-3xl w-1/4">Basket</h1>
-    <ul class="p-10 text-xl">
+  <div class="w-1/2 mt-5 mb-20">
+    <h1 class="pl-10 text-2xl">Basket</h1>
+    <ul v-if="basket?.length" class="pl-10 text-xl gap-5">
       <li
         v-for="(item, index) in basket"
         :key="index"
-        class="hover:text-blue-500 hover:cursor-pointer"
+        class="flex justify-between items-center text-sm py-2 border-b border-gray-300 shadow-md my-1 px-2"
       >
-        {{ `${index + 1}: ${item.product}` }}
+        <p>{{ item.product }}</p>
         <button
-          class="bg-blue-500 text-sm text-white px-2 py-1 mt-5 rounded-xl"
+          class="bg-blue-500  text-white px-2 py-1 rounded-xl"
           @click="removeFromBasket(item.id)"
         >
           remove
         </button>
       </li>
     </ul>
+    <p v-else class="p-10"> Basket is empty</p>
   </div>
 </template>
 
 <script setup>
 import data from "../products.json";
+
+// Save basket in cookie
+const savedBasket = useCookie('basket')
 
 const companies = ref();
 const categories = ref();
@@ -151,11 +162,18 @@ const selectProduct = (item) => {
 const addToBasket = (product) => {
   basket.value = [...basket.value, product];
   selectedProduct.value = undefined;
+
+  // save in cookie
+  savedBasket.value = basket.value;
 };
 
 const removeFromBasket = (id) => {
   const newlist = basket.value.filter((val) => val.id !== id);
   basket.value = newlist;
+
+  // save in cookie
+  savedBasket.value = basket.value;
+
   isInBasket(id);
 };
 
@@ -167,12 +185,15 @@ const isInBasket = (id) => {
 };
 
 onMounted(() => {
-  console.log("products", data);
+  if(savedBasket.value) basket.value = savedBasket.value;
   getCompanies();
 });
 </script>
 
 <style>
+/* 
+ Scroll should be visible allways
+*/
 .scrollbar::-webkit-scrollbar {
   @apply w-3 h-2;
 }
@@ -182,10 +203,6 @@ onMounted(() => {
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-blue-500 rounded-xl border border-blue-200;
-}
-
-.scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #c0a0b9;
+  @apply bg-blue-500 rounded-xl border border-blue-200 hover:bg-blue-700;
 }
 </style>
